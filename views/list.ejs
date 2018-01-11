@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>search</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+
+</head>
+
+<body>
+
+  <div class="col-md-8">
+    <h1>BREAD</h1>
+    <% include filter %>
+        <div>
+      <table class="table table-bordered">
+        <tr>
+          <th>ID</th>
+          <th>String</th>
+          <th>Integer</th>
+          <th>float</th>
+          <th>Date</th>
+          <th>boolean</th>
+          <th>Action</th>
+        </tr>
+        <tbody>
+          <%if (data.length > 0 ){%>
+            <% for(var i=0; i < data.length; i++) { %>
+              <tr>
+                <td><%= data[i].id %></td>
+                <td><%= data[i].stringdata %></td>
+                <td><%= data[i].integerdata%></td>
+                <td><%= data[i].floatdata %></td>
+                <td><%= data[i].datedata %></td>
+                <td><%= data[i].booleandata %></td>
+                <td><a href="edit/<%= data[i].id %>"> <button class="btn btn-success"> Edit</button> </a>
+
+                  <a href="delete/<%= data[i].id %>" onclick="return confirm('anda yakin ?');"><button class="btn btn-danger"> Delete </button></a></td>
+                </tr>
+                <% } %>
+                <%}else{%>
+                  <td>Data Kosong</td>
+                  <%}%>
+                </tbody>
+              </table>
+              <ul class="pagination">
+                <% if(pagination.page > 1){ %><li><a href="<%= pagination.url.replace(`/?page=${pagination.page}`, `/?page=${pagination.page - 1}`) %>">Previous</a></li> <%}%>
+                <% for(let i = 1; i <= pagination.pages; i++){ %>
+                  <li class="<%= (pagination.page == i) ? 'active' : ''%>"><a href="<%= pagination.url.replace(`/?page=${pagination.page}`, `/?page=${i}`) %>"><%= i %></a></li>
+                  <% } %>
+                  <% if(pagination.pages > pagination.page){ %><li><a href="<%= pagination.url.replace(`/?page=${pagination.page}`, `/?page=${pagination.page + 1}`) %>">Next</a></li> <% } %>
+                </ul>
+                <p><%= `Showing ${pagination.offset + 1} to ${(pagination.offset + pagination.limit > pagination.total) ? pagination.total : pagination.offset + pagination.limit} of ${pagination.total} ${(pagination.total > 1) ? 'entries' : 'entry'}` %></p>
+                <br>
+              </ul>
+              <br><br>
+              <a href="/add"><button class="btn btn-primary btn-lg">Add</button></a>
+            </div>
+          </body>
+          </html>
